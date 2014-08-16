@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'Articles',
-    function($scope, $stateParams, $location, Global, Articles) {
+angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', '$http', 'Global', 'Articles',
+    function($scope, $stateParams, $location, $http, Global, Articles) {
         $scope.global = Global;
 
         $scope.hasAuthorization = function(article) {
@@ -69,6 +69,17 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
                 articleId: $stateParams.articleId
             }, function(article) {
                 $scope.article = article;
+            });
+        };
+        
+        $scope.showDict = function(article) {
+            article.content = 'Fetching the meaning...';
+            $http.get('/DictService/Define?word='+article.title)
+            .success(function(data, status){
+                article.content = data.meaning;
+            })
+            .error(function(data, status){
+                article.content = 'Try again. Could not fetching the meaning.';
             });
         };
     }

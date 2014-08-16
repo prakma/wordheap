@@ -1,0 +1,111 @@
+<div class="container-fluid" data-ng-controller="WordlistController">
+	<div class="row">
+		<div class="col-md-9">
+			<div class="row">
+				<!-- <input type="search" ng-model="q" placeholder="add new or search for words..." /> -->
+				<div class="col-md-4">
+					<div class="input-group">
+				      <span class="input-group-btn">
+				        <span>
+				        	<button class="btn btn-default" type="button" ng-show="q.length >=3" ng-click="addNewWord()">Save!</button>
+				        </span>
+				      </span>
+				      <input type="text" class="form-control" ng-model="q" ng-change="wordFilterChange()" placeholder="add/search for words...">
+				    </div>
+				</div>
+			    <div class="col-md-8">
+					    <div>
+					    	<span class="">{{c}}</span>
+					    </div>
+					
+				</div>
+			</div>
+			<div class="row">
+					<ul class="pager">
+					  <li class="previous"><a href ng-mouseover="paginate(false)">&larr; NWER</a></li>
+					  <li class="next"><a href ng-mouseover="paginate(true)">OLDR &rarr;</a></li>
+					</ul>
+			</div>
+			<div class="row">
+			    <div class="col-md-6" ng-repeat="word in wordlistOnPage ">
+					<ul class="list-unstyled">
+						<li class="animate-repeat">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<a href="" ng-mouseover="showMeaning(word)">[{{word.serial}}] {{word.word}} </a>
+									<span class="small"><small>{{word.phonetic}}</small></span>
+								</div>
+								<div class="panel-body">
+									<p><em>{{word.content}}</em></p>
+								</div>
+								<ul class="list-group">
+									<li class="list-group-item small">
+										
+										<div class="input-group input-group-sm">
+										  <span class="input-group-btn">
+									        <button class="btn btn-default" type="button" ng-show="word.tNewExample.length > 2" ng-click="saveExample(word)">Save!</button>
+									      </span>
+										  <input type="text" class="form-control" placeholder="Add a new example" ng-model="word.tNewExample">
+										</div>
+									</li>
+								    <li class="list-group-item " ng-repeat="example in word.examples">
+								    	<small>{{example}}</small>
+								    </li>
+								</ul>
+								<!-- <small>Word tags</small> -->
+							</div>
+					    </li>
+					    <li class="animate-repeat" ng-if="word200.length == 0">
+					      <strong>No results found...</strong> <a> Add a new word </a>
+					    </li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+					
+				</div>
+			</div>
+			<div class="row">
+				<!-- <div class="col-md-8">
+					<h3>Meaning: </h2>
+					<h4> {{ selectedWord.word }}</h4> 
+					<pre ng-Copy="setMeaning(selectedWord)"> {{ selectedWord.tmeaning }} </pre> 
+					<div class="input-group">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" type="button" ng-click="saveMeaning(selectedWord)">Save Meaning!</button>
+				      </span>
+				      <input type="text" class="form-control" ng-model="selectedWord.content" placeholder="save meaning">
+				    </div>  
+				    <div>
+				    	<span class="label label-info">{{c}}</span>
+				    </div>
+					
+				</div> -->
+			</div>
+		</div>
+		<div class="col-md-3">
+			<ul class="list-unstyled pull-right">
+				<li class="animate-repeat" ng-repeat="w in wordlistMax ">
+					<h5><small>{{w.word}}</small></h5>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/ng-template" id="meaningModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">{{ selectedWord.word }}</h3>
+        </div>
+        <div class="modal-body">
+            <pre ng-Copy="setMeaning(selectedWord)"> {{ selectedWord.tmeaning.meaning[0] }} </pre> 
+				<div class="input-group">
+			      <span class="input-group-btn">
+			        <button class="btn btn-default" type="button" ng-click="saveMeaning(selectedWord)">Save Meaning!</button>
+			      </span>
+			      <input type="text" class="form-control" ng-model="selectedWord.content" placeholder="save meaning">
+			    </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-sm" ng-click="$close()">Close</button>
+        </div>
+    </script>
+
+</div>

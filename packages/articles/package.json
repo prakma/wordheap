@@ -11,6 +11,8 @@
     "npm": "1.4.x"
   },
   "dependencies": {
+    "urllib": "^0.5.16",
+    "xml2js": "^0.4.4"
   },
   "license": "GPL"
 }
