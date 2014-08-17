@@ -76,10 +76,10 @@
 
 
  exports.all = function(req, res) {
-    MyWord.find({ 'user': req.user }).sort('-created').populate('user', 'name username').exec(function(err, mywords) {
+    MyWord.find({ 'user': req.user }).sort('-created')/*.populate('user', 'name username')*/.exec(function(err, mywords) {
         if (err) {
             return res.json(500, {
-                error: 'Cannot list the mywords'
+                error: 'Cannot list mywords'
             });
         }
         res.json(mywords);
@@ -93,38 +93,33 @@ exports.fetchMeaning = function(req, res) {
     var meaningXML, xmlParser, defs, def, meaning;
     urllib.request('http://services.aonaware.com/DictService/DictService.asmx/Define?word='+word, function (err, data, res2) {
         if (err) {
-            throw err; // you need to handle error
-        }
-        // console.log(res.statusCode);
-        // console.log(res.headers);
-        // data is Buffer instance
-        meaningXML = data.toString();
-        xmlParser = new xml2js.Parser();
-        xmlParser.parseString(meaningXML, function (err, result) {
-            //console.dir(result);
-            defs = result.WordDefinition.Definitions;
-            try{
-                if (defs.length > 0){
-                    //console.dir(defs[0]);
-                    def = defs[0].Definition;
-                    if (def.length > 0){
-                        meaning = def[0].WordDefinition;
+            console.log('dictionary error', word, err);
+            obj.meaning = ['Unknown'];
+            res.json(obj);
+        } else{
+            meaningXML = data.toString();
+            xmlParser = new xml2js.Parser();
+            xmlParser.parseString(meaningXML, function (err, result) {
+                //console.dir(result);
+                defs = result.WordDefinition.Definitions;
+                try{
+                    if (defs.length > 0){
+                        //console.dir(defs[0]);
+                        def = defs[0].Definition;
+                        if (def.length > 0){
+                            meaning = def[0].WordDefinition;
+                        }
+                    } else{
+                        meaning = ['Unknown'];
                     }
-                } else{
+                } catch(e){
                     meaning = ['Unknown'];
                 }
-            } catch(e){
-                meaning = ['Unknown'];
-            }
-                
-
-            //console.log(def);
-            //meaningJson = JSON.stringify(defs);
-            //console.log('meaning', meaningJson);
-            obj.meaning = meaning;
-            res.json(obj);
-        });
-
+                    
+                obj.meaning = meaning;
+                res.json(obj);
+            });
+        }
     });
     //http://services.aonaware.com/DictService/DictService.asmx/Define?word='+article.title
     

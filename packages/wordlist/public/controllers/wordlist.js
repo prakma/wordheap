@@ -31,12 +31,6 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
 
         };
 
-        // $scope.visibleWordList = function(){
-        //     //console.log('visible word list invoked, paginationWordIndex ', paginationWordIndex);
-        //     $scope.wordlistFilter = $filter('filter')($scope.wordlistMax, $scope.q);
-        //     //console.log('wordlist filter ', $scope.wordlistFilter);
-        //     return $scope.wordlistFilter.slice(paginationWordIndex, paginationWordIndex + WORDS_IN_A_ROW);
-        // };
 
         $scope.paginate = function(isOlder){
 
@@ -51,7 +45,7 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
                 $scope.wordlistOnPage = $scope.wordlistFilter.slice(paginationWordIndex, paginationWordIndex + WORDS_IN_A_ROW);
             }, 300);
             
-            console.log('current pagination is at',paginationWordIndex, 'out of', myWordCount);
+            //console.log('current pagination is at',paginationWordIndex, 'out of', myWordCount);
         };
 
         $scope.addNewWord = function(){
@@ -61,8 +55,8 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
         	newWord.$save(function(){
         		$scope.q = '';
 	        	$scope.c = 'New word added in your list !';
+                fetchWordList();
 	        	$timeout(function(){
-	        		fetchWordList();
 	        		$scope.c = '';
 	        		$scope.q = '';
 	        		//$state.go('recent_words_page');
