@@ -18,7 +18,7 @@ Wordlist.register(function(app, auth, database) {
 
     //We are adding a link to the main menu for all authenticated users
     Wordlist.menus.add({
-        title: 'Wordlist',
+        title: 'My List',
         link: 'words_main_page',
         roles: ['authenticated'],
         menu: 'main'

@@ -24,7 +24,7 @@ Articles.register(function(app, auth, database) {
     // });
     Articles.menus.add({
         'roles': ['authenticated'],
-        'title': 'Zuggestion?',
+        'title': 'Suggestion?',
         'link': 'create article'
     });
 

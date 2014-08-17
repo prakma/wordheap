@@ -76,7 +76,7 @@
 
 
  exports.all = function(req, res) {
-    MyWord.find().sort('-created').populate('user', 'name username').exec(function(err, mywords) {
+    MyWord.find({ 'user': req.user }).sort('-created').populate('user', 'name username').exec(function(err, mywords) {
         if (err) {
             return res.json(500, {
                 error: 'Cannot list the mywords'
