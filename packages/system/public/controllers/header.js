@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('mean.system').controller('HeaderController', ['$scope', '$rootScope', 'Global', 'Menus',
-    function($scope, $rootScope, Global, Menus) {
+angular.module('mean.system').controller('HeaderController', ['$scope', '$rootScope', '$window', '$location', 'Global', 'Menus',
+    function($scope, $rootScope, $window, $location, Global, Menus) {
         $scope.global = Global;
         $scope.menus = {};
 
@@ -32,6 +32,15 @@ angular.module('mean.system').controller('HeaderController', ['$scope', '$rootSc
                 authenticated: !! $rootScope.user,
                 user: $rootScope.user
             };
+        });
+
+        $rootScope.$on('$viewContentLoaded', function(event) {
+            $window.__gaTracker('send', 'pageview', {
+                'page' : $location.path(),
+                'hitCallback': function() {
+                    console.log('ga pageview data sent for ',$location.path(),$window.document.title);
+                }
+            });
         });
 
     }

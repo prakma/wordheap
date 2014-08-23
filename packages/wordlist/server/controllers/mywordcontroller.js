@@ -12,7 +12,6 @@
 
 
  exports.myWord = function(req, res, next, id) {
-    console.log('manoj - ',req.method, 'id', id);
     MyWord.load(id, function(err, myWord) {
         if (err) return next(err);
         if (!myWord) return next(new Error('Failed to load myWord ' + id));
@@ -38,9 +37,8 @@
 
 
  exports.update = function(req, res) {
-    console.log(' my word, received the put ');
     var myWord = req.myWord;
-
+    
     myWord = _.extend(myWord, req.body);
 
     myWord.save(function(err) {

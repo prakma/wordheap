@@ -8,7 +8,7 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
         $scope.global = Global;
         $scope.c = '';
         $scope.newExample = 'bah';
-        
+
 
         function fetchWordList() {
         	$scope.wordlistMax = Word.query(function(){
@@ -101,7 +101,7 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
         };
 
         $scope.saveMeaning = function(selectedWord){
-            console.log(' save meaing called. ', selectedWord.content);
+            //console.log(' save meaing called. ', selectedWord.content);
             $scope.selectedWord = selectedWord;
             selectedWord.$update(function(){
                 console.log('meaing updated');
@@ -115,7 +115,7 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
         };
 
         $scope.saveExample = function(selectedWord){
-            console.log(' save example called. ', selectedWord.tNewExample);
+            //console.log(' save example called. ', selectedWord.tNewExample);
             $scope.selectedWord = selectedWord;
             if(selectedWord.tNewExample === undefined || 
                 /[\w.]+/.test(selectedWord.tNewExample) === false) {
@@ -130,6 +130,24 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
                 },WordAppSettings.CTRL_MSG_DISP_DURS) ;
 
             });
+        };
+
+        $scope.fixSpelling = function(selectedWord, isEditDone){
+            //console.log(' fix spelling called ', selectedWord.word, isEditDone);
+            selectedWord.isEditDone = isEditDone;
+            $scope.selectedWord = selectedWord;
+            if(isEditDone === true){
+                selectedWord.$update(function(){
+                    //console.log('meaing updated');
+                    $scope.c = ' Spelling changed for ' + selectedWord.word+' ! ';
+                    $timeout(function(){
+                        $scope.c = '';
+                        delete selectedWord.isEditDone;
+                    },WordAppSettings.CTRL_MSG_DISP_DURS) ;
+
+                });
+            }
+            
         };
     }
 ]);

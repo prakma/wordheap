@@ -32,8 +32,10 @@
 						<li class="animate-repeat">
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<a href="" ng-mouseover="showMeaning(word)">[{{word.serial}}] {{word.word}} </a>
+									[{{word.serial}}] 
+									<input type="text" name="wordspell" ng-model="word.word" ng-change="fixSpelling(word, false)" class="btn btn-link"></input><span ng-show="word.isEditDone===false" class="glyphicon glyphicon-ok-sign ng-hide" ng-click="fixSpelling(word, true)"></span>
 									<span class="small"><small>{{word.phonetic}}</small></span>
+									<span class="glyphicon glyphicon-zoom-in pull-right" ng-mouseover="showMeaning(word)"></span>
 								</div>
 								<div class="panel-body">
 									<p><em>{{word.content}}</em></p>
@@ -52,7 +54,7 @@
 								    	<small>{{example}}</small>
 								    </li>
 								</ul>
-								<!-- <small>Word tags</small> -->
+								<small>{{word.created}}</small>
 							</div>
 					    </li>
 					    <li class="animate-repeat" ng-if="word200.length == 0">
