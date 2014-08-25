@@ -24,6 +24,8 @@ Wordlist.register(function(app, auth, database) {
         menu: 'main'
     });
 
+    Wordlist.aggregateAsset('css', 'wordlist.css');
+
     /**
     //Uncomment to use. Requires meanio@0.3.7 or above
     // Save settings with callback

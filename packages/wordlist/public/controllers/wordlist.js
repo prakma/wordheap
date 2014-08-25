@@ -33,7 +33,6 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
 
 
         $scope.paginate = function(isOlder){
-
             $timeout(function(){
                 if(isOlder === true){
                     if(paginationWordIndex === myWordCount) return;
@@ -47,6 +46,22 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
             
             //console.log('current pagination is at',paginationWordIndex, 'out of', myWordCount);
         };
+
+        $scope.paginateTo = function(thisIndex){
+
+            $timeout(function(){
+                if(thisIndex >= 0 && thisIndex <= myWordCount){
+                    paginationWordIndex = thisIndex;
+                } else{
+                    return;
+                }
+
+                $scope.wordlistOnPage = $scope.wordlistFilter.slice(paginationWordIndex, paginationWordIndex + WORDS_IN_A_ROW);
+            }, 200);
+            
+            //console.log('current pagination is at',paginationWordIndex, 'out of', myWordCount);
+        };
+
 
         $scope.addNewWord = function(){
         	var newWord = new Word();
@@ -67,28 +82,32 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
         $scope.showMeaning = function(selectedWord){
             $scope.selectedWord = selectedWord;
             //console.log(selectedWord);
-            DictService.get({word: selectedWord.word}, function(meaning){
-                $scope.selectedWord.tmeaning = meaning;
-            });
-            // selectedWord.$meaning({word:selectedWord.word},function(wordMeaning){
-            //     console.log('meaning method invoked - ', wordMeaning);
-            //     console.log('selected word', selectedWord);
-            //     //selectedWord.tmeaning = wordMeaning;kkjhjkkjhj
 
-            //     $scope.selectedMeaning = $filter('json')(wordMeaning);
+            $timeout(function(){
+                angular.element('#e-dictionary')
+                .attr('src','http://www.dict.org/bin/Dict?Form=Dict2&Database=*&Query='+selectedWord.word);
+                angular.element('#h-dictionary')
+                .attr('src','http://www.shabdkosh.com/hi/translate?e='+selectedWord.word+'&l=hi');
+                },10) ;
+
+            
+
+            
+            // DictService.get({word: selectedWord.word}, function(meaning){
+            //     $scope.selectedWord.tmeaning = meaning;
             // });
-            //console.log('selected text is ',$window.getSelection().toString());
-            $modal.open({
-                  templateUrl: 'meaningModalContent.html',
-                  resolve: {
-                    items: function () {
-                        DictService.get({word: selectedWord.word}, function(meaning){
-                            $scope.selectedWord.tmeaning = meaning;
-                        });
-                    }
-                  },
-                  scope: $scope
-                });
+
+            // $modal.open({
+            //       templateUrl: 'meaningModalContent.html',
+            //       resolve: {
+            //         items: function () {
+            //             DictService.get({word: selectedWord.word}, function(meaning){
+            //                 $scope.selectedWord.tmeaning = meaning;
+            //             });
+            //         }
+            //       },
+            //       scope: $scope
+            //     });
 
         };
 

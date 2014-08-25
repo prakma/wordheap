@@ -1,5 +1,19 @@
 <div class="container-fluid" data-ng-controller="WordlistController">
 	<div class="row">
+		<div class="col-md-3">
+			<div class="word-scroll">
+				<ul class="list-unstyled pull-left">
+					<li class="animate-repeat" ng-repeat="w in wordlistMax ">
+						<h5>
+							<span ng-mouseover="paginateTo($index)">
+								<a href=""> {{w.word}} </a>
+							</span>
+						</h5>
+					</li>
+				</ul>
+			</div>
+		</div>
+
 		<div class="col-md-9">
 			<div class="row">
 				<!-- <input type="search" ng-model="q" placeholder="add new or search for words..." /> -->
@@ -54,13 +68,14 @@
 								    	<small>{{example}}</small>
 								    </li>
 								</ul>
-								<small>{{word.created}}</small>
+								<small>{{word.created | fromNow}}</small>
 							</div>
 					    </li>
 					    <li class="animate-repeat" ng-if="word200.length == 0">
 					      <strong>No results found...</strong> <a> Add a new word </a>
 					    </li>
 					</ul>
+					<span class="separator"/>
 				</div>
 				<div class="col-md-4">
 					
@@ -82,15 +97,19 @@
 				    </div>
 					
 				</div> -->
+				<div class="row">
+					<div class="container">
+						<div class="col-md-6">
+							<iframe id="e-dictionary" class="dictionary" src="" frameborder="0" vspace="0" hspace="0"></iframe>
+						</div>
+						<div class="col-md-6">
+							<iframe id="h-dictionary" class="dictionary" src="" frameborder="0" vspace="0" hspace="0"></iframe>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-3">
-			<ul class="list-unstyled pull-right">
-				<li class="animate-repeat" ng-repeat="w in wordlistMax ">
-					<h5><small>{{w.word}}</small></h5>
-				</li>
-			</ul>
-		</div>
+		
 	</div>
 	<script type="text/ng-template" id="meaningModalContent.html">
         <div class="modal-header">
