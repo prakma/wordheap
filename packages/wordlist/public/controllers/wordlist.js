@@ -79,18 +79,36 @@ angular.module('mean.wordlist').controller('WordlistController', ['$scope', 'Glo
         	});
         };
 
-        $scope.showMeaning = function(selectedWord){
-            $scope.selectedWord = selectedWord;
-            //console.log(selectedWord);
+        $scope.showMeaning = function(selectedWord, lang){
+
+            if(selectedWord !== undefined) 
+                $scope.selectedWord = selectedWord;
+            else 
+                selectedWord = $scope.selectedWord;
+
+            if(lang === undefined) lang = 'eng';
+
+            $scope.showDictUI = true;
+
 
             $timeout(function(){
-                angular.element('#e-dictionary')
-                .attr('src','http://www.dict.org/bin/Dict?Form=Dict2&Database=*&Query='+selectedWord.word);
-                angular.element('#h-dictionary')
-                .attr('src','http://www.shabdkosh.com/hi/translate?e='+selectedWord.word+'&l=hi');
-                },10) ;
-
-            
+                
+                if(lang === 'eng'){
+                    angular.element('#ext-dictionary')
+                    .attr('src','http://www.dict.org/bin/Dict?Form=Dict2&Database=*&Query='+selectedWord.word);
+                    $scope.dictionaryProvider = 'http://www.dict.org';
+                } 
+                else if(lang === 'hnd'){
+                    angular.element('#ext-dictionary')
+                    .attr('src','http://www.shabdkosh.com/hi/translate?e='+selectedWord.word+'&l=hi');
+                    $scope.dictionaryProvider = 'http://www.shabdkosh.com';
+                    
+                } else{
+                    $scope.showDictUI = false;
+                    angular.element('#ext-dictionary')
+                    .attr('src',''); // reset it to clean
+                }
+            },10) ;
 
             
             // DictService.get({word: selectedWord.word}, function(meaning){
